@@ -1,0 +1,32 @@
+services:
+  server:
+    build:
+      context: ./server/
+      dockerfile: live.Dockerfile
+      args:
+        UID: ${UID}
+        GID: ${GUI}
+    container_name: server
+    volumes:
+      - ./server/:/app/
+      - ./config/:/config/
+      - ./data/:/assets/
+    environment:
+      - JWT_SECRET=somethingverystrong
+    ports:
+      - 3000:3000
+
+  ui:
+    build:
+      context: ./ui/
+      dockerfile: live.Dockerfile
+      args:
+        UID: ${UID}
+        GID: ${GUI}
+    container_name: ui
+    volumes:
+      - ./ui/:/app/
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "5000:5000"
